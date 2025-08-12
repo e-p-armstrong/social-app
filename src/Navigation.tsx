@@ -106,7 +106,7 @@ import {ContentAndMediaSettingsScreen} from './screens/Settings/ContentAndMediaS
 import {ExternalMediaPreferencesScreen} from './screens/Settings/ExternalMediaPreferences'
 import {FollowingFeedPreferencesScreen} from './screens/Settings/FollowingFeedPreferences'
 import {LanguageSettingsScreen} from './screens/Settings/LanguageSettings'
-import {PersonalitySettingsScreen} from './screens/Settings/PersonalitySettingsScreen'
+import {PersonalitySettingsScreen} from './screens/Settings/PersonalitySettings'
 import {PrivacyAndSecuritySettingsScreen} from './screens/Settings/PrivacyAndSecuritySettings'
 import {SettingsScreen} from './screens/Settings/Settings'
 import {ThreadPreferencesScreen} from './screens/Settings/ThreadPreferences'
