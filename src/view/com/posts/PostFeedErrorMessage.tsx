@@ -1,6 +1,10 @@
 import React from 'react'
 import {View} from 'react-native'
-import {type AppBskyActorDefs, AppBskyFeedGetAuthorFeed, AtUri} from '@atproto/api'
+import {
+  type AppBskyActorDefs,
+  AppBskyFeedGetAuthorFeed,
+  AtUri,
+} from '@atproto/api'
 import {msg as msgLingui, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -119,7 +123,7 @@ function FeedgenErrorMessage({
         [KnownError.FeedTooManyRequests]: _l(
           msgLingui`This feed is currently receiving high traffic and is temporarily unavailable. Please try again later.`,
         ),
-      }[knownError]),
+      })[knownError],
     [_l, knownError],
   )
   const [_, uri] = feedDesc.split('|')

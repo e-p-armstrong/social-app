@@ -18,17 +18,17 @@ describe('handle validation', () => {
   })
 
   const invalid = [
-    ['al', 'bsky.social', 'frontLength'],
+    ['al', 'bsky.social', 'frontLengthNotTooShort'],
     ['-alice', 'bsky.social', 'hyphenStartOrEnd'],
     ['alice-', 'bsky.social', 'hyphenStartOrEnd'],
     ['%%%', 'bsky.social', 'handleChars'],
-    ['1234567890123456789', 'bsky.social', 'frontLength'],
+    ['1234567890123456789', 'bsky.social', 'frontLengthNotTooLong'],
     [
       '1234567890123456789',
       'my-custom-pds-with-long-name.social',
-      'frontLength',
+      'frontLengthNotTooLong',
     ],
-    ['al', 'my-custom-pds-with-long-name.social', 'frontLength'],
+    ['al', 'my-custom-pds-with-long-name.social', 'frontLengthNotTooShort'],
     ['a'.repeat(300), 'toolong.com', 'totalLength'],
   ] satisfies [string, string, keyof IsValidHandle][]
   it.each(invalid)(

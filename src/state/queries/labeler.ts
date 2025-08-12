@@ -41,7 +41,7 @@ export function useLabelerInfoQuery({
     queryKey: labelerInfoQueryKey(did as string),
     queryFn: async () => {
       const res = await agent.app.bsky.labeler.getServices({
-        dids: [did as string],
+        dids: [did!],
         detailed: true,
       })
       return res.data.views[0] as AppBskyLabelerDefs.LabelerViewDetailed

@@ -10,6 +10,9 @@ export const sentryTransport: Transport = (
   {type, tags, ...metadata},
   timestamp,
 ) => {
+  // Skip debug messages entirely for now - esb
+  if (level === LogLevel.Debug) return
+
   const meta = {
     __context__: context,
     ...prepareMetadata(metadata),

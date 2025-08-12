@@ -1,5 +1,6 @@
 import {createContext, useContext, useMemo, useState} from 'react'
 
+import {type AgeAssuranceRedirectDialogState} from '#/components/ageAssurance/AgeAssuranceRedirectDialog'
 import * as Dialog from '#/components/Dialog'
 import {type Screen} from '#/components/dialogs/EmailDialog/types'
 
@@ -17,6 +18,12 @@ type ControlsContext = {
   signinDialogControl: Control
   inAppBrowserConsentControl: StatefulControl<string>
   emailDialogControl: StatefulControl<Screen>
+  linkWarningDialogControl: StatefulControl<{
+    href: string
+    displayText: string
+    share?: boolean
+  }>
+  ageAssuranceRedirectDialogControl: StatefulControl<AgeAssuranceRedirectDialogState>
 }
 
 const ControlsContext = createContext<ControlsContext | null>(null)
@@ -36,6 +43,13 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
   const signinDialogControl = Dialog.useDialogControl()
   const inAppBrowserConsentControl = useStatefulDialogControl<string>()
   const emailDialogControl = useStatefulDialogControl<Screen>()
+  const linkWarningDialogControl = useStatefulDialogControl<{
+    href: string
+    displayText: string
+    share?: boolean
+  }>()
+  const ageAssuranceRedirectDialogControl =
+    useStatefulDialogControl<AgeAssuranceRedirectDialogState>()
 
   const ctx = useMemo<ControlsContext>(
     () => ({
@@ -43,12 +57,16 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
       signinDialogControl,
       inAppBrowserConsentControl,
       emailDialogControl,
+      linkWarningDialogControl,
+      ageAssuranceRedirectDialogControl,
     }),
     [
       mutedWordsDialogControl,
       signinDialogControl,
       inAppBrowserConsentControl,
       emailDialogControl,
+      linkWarningDialogControl,
+      ageAssuranceRedirectDialogControl,
     ],
   )
 

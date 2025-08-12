@@ -1,5 +1,10 @@
 import React, {isValidElement, memo, startTransition, useRef} from 'react'
-import {type FlatListProps, StyleSheet, View, type ViewProps} from 'react-native'
+import {
+  type FlatListProps,
+  StyleSheet,
+  View,
+  type ViewProps,
+} from 'react-native'
 import {type ReanimatedScrollEvent} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 
 import {batchedUpdates} from '#/lib/batchedUpdates'
@@ -205,7 +210,7 @@ function ListImpl<ItemT>(
             behavior: animated ? 'smooth' : 'instant',
           })
         },
-      } as any), // TODO: Better types.
+      }) as any, // TODO: Better types.
     [getScrollableNode],
   )
 

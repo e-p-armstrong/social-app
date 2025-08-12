@@ -67,6 +67,9 @@ export const atoms = {
     zIndex: 50,
   },
 
+  overflow_visible: {
+    overflow: 'visible',
+  },
   overflow_hidden: {
     overflow: 'hidden',
   },
@@ -976,12 +979,22 @@ export const atoms = {
   hidden: {
     display: 'none',
   },
+  inline: web({
+    display: 'inline',
+  }),
+  block: web({
+    display: 'block',
+  }),
 
   /*
    * Transition
    */
   transition_none: web({
     transitionProperty: 'none',
+  }),
+  transition_timing_default: web({
+    transitionTimingFunction: 'cubic-bezier(0.17, 0.73, 0.14, 1)',
+    transitionDuration: '100ms',
   }),
   transition_all: web({
     transitionProperty: 'all',
@@ -1051,4 +1064,8 @@ export const atoms = {
       transform: [],
     },
   }) as {transform: Exclude<ViewStyle['transform'], string | undefined>},
+
+  pointer: web({
+    cursor: 'pointer',
+  }),
 } as const

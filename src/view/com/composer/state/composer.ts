@@ -25,7 +25,12 @@ import {
   type LinkFacetMatch,
   suggestLinkCardUri,
 } from '#/view/com/composer/text-input/text-input-util'
-import {createVideoState, type VideoAction, videoReducer, type VideoState} from './video'
+import {
+  createVideoState,
+  type VideoAction,
+  videoReducer,
+  type VideoState,
+} from './video'
 
 type ImagesMedia = {
   type: 'images'
@@ -514,12 +519,12 @@ export function createComposerState({
     text: initText
       ? initText
       : initMention
-      ? insertMentionAt(
-          `@${initMention}`,
-          initMention.length + 1,
-          `${initMention}`,
-        )
-      : '',
+        ? insertMentionAt(
+            `@${initMention}`,
+            initMention.length + 1,
+            `${initMention}`,
+          )
+        : '',
   })
 
   let link: Link | undefined

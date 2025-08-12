@@ -43,13 +43,9 @@ export interface ChangePasswordModal {
   name: 'change-password'
 }
 
-export interface LinkWarningModal {
-  name: 'link-warning'
-  text: string
-  href: string
-  share?: boolean
-}
-
+/**
+ * @deprecated DO NOT ADD NEW MODALS
+ */
 export type Modal =
   // Account
   | DeleteAccountModal
@@ -66,9 +62,6 @@ export type Modal =
   // Bluesky access
   | WaitlistModal
   | InviteCodesModal
-
-  // Generic
-  | LinkWarningModal
 
 const ModalContext = React.createContext<{
   isModalActive: boolean
@@ -135,10 +128,16 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
   )
 }
 
+/**
+ * @deprecated use the dialog system from `#/components/Dialog.tsx`
+ */
 export function useModals() {
   return React.useContext(ModalContext)
 }
 
+/**
+ * @deprecated use the dialog system from `#/components/Dialog.tsx`
+ */
 export function useModalControls() {
   return React.useContext(ModalControlContext)
 }

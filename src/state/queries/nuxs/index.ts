@@ -40,6 +40,20 @@ export function useNuxs():
     }
   }
 
+  // if (__DEV__) {
+  //   const queryClient = useQueryClient()
+  //   const agent = useAgent()
+
+  //   // @ts-ignore
+  //   window.clearNux = async (ids: string[]) => {
+  //     await agent.bskyAppRemoveNuxs(ids)
+  //     // triggers a refetch
+  //     await queryClient.invalidateQueries({
+  //       queryKey: preferencesQueryKey,
+  //     })
+  //   }
+  // }
+
   return {
     nuxs: undefined,
     status,

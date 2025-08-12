@@ -1,13 +1,9 @@
-import React from 'react'
+import {useCallback, useMemo, useState} from 'react'
 import {StyleSheet, View} from 'react-native'
 import {type AppBskyActorDefs} from '@atproto/api'
 import {msg, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
-import {
-  useLinkProps,
-  useNavigation,
-  useNavigationState,
-} from '@react-navigation/native'
+import {useNavigation, useNavigationState} from '@react-navigation/native'
 
 import {useActorStatus} from '#/lib/actor-status'
 import {useAccountSwitcher} from '#/lib/hooks/useAccountSwitcher'
@@ -16,7 +12,10 @@ import {usePalette} from '#/lib/hooks/usePalette'
 import {useWebMediaQueries} from '#/lib/hooks/useWebMediaQueries'
 import {getCurrentRoute, isTab} from '#/lib/routes/helpers'
 import {makeProfileLink} from '#/lib/routes/links'
-import {type CommonNavigatorParams} from '#/lib/routes/types'
+import {
+  type CommonNavigatorParams,
+  type NavigationProp,
+} from '#/lib/routes/types'
 import {useGate} from '#/lib/statsig/statsig'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {isInvalidHandle, sanitizeHandle} from '#/lib/strings/handles'
@@ -326,7 +325,7 @@ function NavItem({count, hasNew, href, icon, iconFilled, label}: NavItemProps) {
   const {_} = useLingui()
   const {currentAccount} = useSession()
   const {leftNavMinimal} = useLayoutBreakpoints()
-  const [pathName] = React.useMemo(() => router.matchPath(href), [href])
+  const [pathName] = useMemo(() => router.matchPath(href), [href])
   const currentRouteInfo = useNavigationState(state => {
     if (!state) {
       return {name: 'Home'}
@@ -339,8 +338,8 @@ function NavItem({count, hasNew, href, icon, iconFilled, label}: NavItemProps) {
         (currentRouteInfo.params as CommonNavigatorParams['Profile']).name ===
           currentAccount?.handle
       : isTab(currentRouteInfo.name, pathName)
-  const {onPress} = useLinkProps({to: href})
-  const onPressWrapped = React.useCallback(
+  const navigation = useNavigation<NavigationProp>()
+  const onPressWrapped = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       if (e.ctrlKey || e.metaKey || e.altKey) {
         return
@@ -349,10 +348,12 @@ function NavItem({count, hasNew, href, icon, iconFilled, label}: NavItemProps) {
       if (isCurrent) {
         emitSoftReset()
       } else {
-        onPress()
+        const [screen, params] = router.matchPath(href)
+        // @ts-expect-error TODO: type matchPath well enough that it can be plugged into navigation.navigate directly
+        navigation.navigate(screen, params, {pop: true})
       }
     },
-    [onPress, isCurrent],
+    [navigation, href, isCurrent],
   )
 
   return (
@@ -468,7 +469,7 @@ function ComposeBtn() {
   const {openComposer} = useOpenComposer()
   const {_} = useLingui()
   const {leftNavMinimal} = useLayoutBreakpoints()
-  const [isFetchingHandle, setIsFetchingHandle] = React.useState(false)
+  const [isFetchingHandle, setIsFetchingHandle] = useState(false)
   const fetchHandle = useFetchHandle()
 
   const getProfileHandle = async () => {

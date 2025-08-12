@@ -1,5 +1,5 @@
-import {type PropsWithChildren} from 'react';
-import { useMemo, useRef} from 'react'
+import {type PropsWithChildren} from 'react'
+import {useMemo, useRef} from 'react'
 import {
   Dimensions,
   type GestureResponderEvent,
@@ -18,7 +18,7 @@ import {type IconProp} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
-import type React from 'react';
+import type React from 'react'
 
 import {HITSLOP_10} from '#/lib/constants'
 import {usePalette} from '#/lib/hooks/usePalette'
@@ -72,6 +72,9 @@ interface DropdownButtonProps {
   accessibilityHint?: string
 }
 
+/**
+ * @deprecated use Menu from `#/components/Menu.tsx` instead
+ */
 export function DropdownButton({
   testID,
   type = 'bare',

@@ -176,8 +176,8 @@ export function StepFinished() {
             avatarResult: profileStepResults.isCreatedAvatar
               ? 'created'
               : profileStepResults.image
-              ? 'uploaded'
-              : 'default',
+                ? 'uploaded'
+                : 'default',
           })
         })(),
         requestNotificationsPermission('AfterOnboarding'),
@@ -305,8 +305,8 @@ export function StepFinished() {
         <Button
           disabled={saving}
           key={state.activeStep} // remove focus state on nav
-          variant="gradient"
-          color="gradient_sky"
+          variant="solid"
+          color="primary"
           size="large"
           label={_(msg`Complete onboarding and start using your account`)}
           onPress={finishOnboarding}>

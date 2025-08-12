@@ -16,12 +16,10 @@ import {
 } from '#/state/preferences/large-alt-badge'
 import * as SettingsList from '#/screens/Settings/components/SettingsList'
 import {atoms as a} from '#/alf'
-import {Admonition} from '#/components/Admonition'
 import * as Toggle from '#/components/forms/Toggle'
 import {Accessibility_Stroke2_Corner2_Rounded as AccessibilityIcon} from '#/components/icons/Accessibility'
 import {Haptic_Stroke2_Corner2_Rounded as HapticIcon} from '#/components/icons/Haptic'
 import * as Layout from '#/components/Layout'
-import {InlineLinkText} from '#/components/Link'
 
 type Props = NativeStackScreenProps<
   CommonNavigatorParams,
@@ -100,19 +98,6 @@ export function AccessibilitySettingsScreen({}: Props) {
               </SettingsList.Group>
             </>
           )}
-          <SettingsList.Item>
-            <Admonition type="info" style={[a.flex_1]}>
-              <Trans>
-                Autoplay options have moved to the{' '}
-                <InlineLinkText
-                  to="/settings/content-and-media"
-                  label={_(msg`Content and media`)}>
-                  Content and Media settings
-                </InlineLinkText>
-                .
-              </Trans>
-            </Admonition>
-          </SettingsList.Item>
         </SettingsList.Container>
       </Layout.Content>
     </Layout.Screen>

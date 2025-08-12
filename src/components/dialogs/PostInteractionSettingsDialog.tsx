@@ -1,6 +1,10 @@
 import React from 'react'
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {type AppBskyFeedDefs, type AppBskyFeedPostgate, AtUri} from '@atproto/api'
+import {
+  type AppBskyFeedDefs,
+  type AppBskyFeedPostgate,
+  AtUri,
+} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -558,7 +562,8 @@ export function usePrefetchPostInteractionSettings({
       await Promise.all([
         queryClient.prefetchQuery({
           queryKey: createPostgateQueryKey(postUri),
-          queryFn: () => getPostgateRecord({agent, postUri}),
+          queryFn: () =>
+            getPostgateRecord({agent, postUri}).then(res => res ?? null),
           staleTime: STALE.SECONDS.THIRTY,
         }),
         queryClient.prefetchQuery({

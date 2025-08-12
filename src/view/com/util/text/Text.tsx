@@ -32,7 +32,7 @@ export type CustomTextProps = Omit<TextProps, 'children'> & {
 
 export {Text_DEPRECATED as Text}
 /**
- * @deprecated use Text from Typography instead.
+ * @deprecated use Text from `#/components/Typography.tsx` instead
  */
 function Text_DEPRECATED({
   type = 'md',

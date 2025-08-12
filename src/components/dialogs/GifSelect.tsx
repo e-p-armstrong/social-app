@@ -16,6 +16,7 @@ import {cleanError} from '#/lib/strings/errors'
 import {isWeb} from '#/platform/detection'
 import {
   type Gif,
+  tenorUrlToBskyGifUrl,
   useFeaturedGifsQuery,
   useGifSearchQuery,
 } from '#/state/queries/tenor'
@@ -316,7 +317,7 @@ export function GifPreview({
             t.atoms.bg_contrast_25,
           ]}
           source={{
-            uri: gif.media_formats.tinygif.url,
+            uri: tenorUrlToBskyGifUrl(gif.media_formats.tinygif.url),
           }}
           contentFit="cover"
           accessibilityLabel={gif.title}

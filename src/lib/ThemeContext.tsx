@@ -1,7 +1,6 @@
-import {type ReactNode} from 'react';
+import {type ReactNode} from 'react'
 import {createContext, useContext} from 'react'
 import {type TextStyle, type ViewStyle} from 'react-native'
-import type React from 'react';
 
 import {type ThemeName} from '#/alf/types'
 import {darkTheme, defaultTheme, dimTheme} from './themes'
@@ -31,6 +30,9 @@ export type Palette = Record<PaletteColorName, PaletteColor>
 export type ShapeName = 'button' | 'bigButton' | 'smallButton'
 export type Shapes = Record<ShapeName, ViewStyle>
 
+/**
+ * @deprecated use typography atoms from `#/alf`
+ */
 export type TypographyVariant =
   | '2xl-thin'
   | '2xl'

@@ -17,19 +17,18 @@ import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
 
-import {IS_INTERNAL} from '#/lib/app-info'
 import {DISCOVER_DEBUG_DIDS} from '#/lib/constants'
 import {useOpenLink} from '#/lib/hooks/useOpenLink'
+import {useTranslate} from '#/lib/hooks/useTranslate'
 import {getCurrentRoute} from '#/lib/routes/helpers'
 import {makeProfileLink} from '#/lib/routes/links'
 import {
   type CommonNavigatorParams,
   type NavigationProp,
 } from '#/lib/routes/types'
-import {logEvent} from '#/lib/statsig/statsig'
+import {logEvent, useGate} from '#/lib/statsig/statsig'
 import {richTextToString} from '#/lib/strings/rich-text-helpers'
 import {toShareUrl} from '#/lib/strings/url-helpers'
-import {getTranslatorLink} from '#/locale/helpers'
 import {logger} from '#/logger'
 import {type Shadow} from '#/state/cache/post-shadow'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
@@ -48,7 +47,7 @@ import {
   useProfileMuteMutationQueue,
 } from '#/state/queries/profile'
 import {useToggleReplyVisibilityMutation} from '#/state/queries/threadgate'
-import {useSession} from '#/state/session'
+import {useRequireAuth, useSession} from '#/state/session'
 import {useMergedThreadgateHiddenReplies} from '#/state/threadgate-hidden-replies'
 import * as Toast from '#/view/com/util/Toast'
 import {useDialogControl} from '#/components/Dialog'
@@ -83,6 +82,7 @@ import {
   useReportDialogControl,
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
+import {IS_INTERNAL} from '#/env'
 import * as bsky from '#/types/bsky'
 
 let PostMenuItems = ({
@@ -113,10 +113,12 @@ let PostMenuItems = ({
   const {mutateAsync: deletePostMutate} = usePostDeleteMutation()
   const {mutateAsync: pinPostMutate, isPending: isPinPending} =
     usePinnedPostMutation()
+  const requireSignIn = useRequireAuth()
   const hiddenPosts = useHiddenPosts()
   const {hidePost} = useHiddenPostsApi()
   const feedFeedback = useFeedFeedbackContext()
   const openLink = useOpenLink()
+  const translate = useTranslate()
   const navigation = useNavigation<NavigationProp>()
   const {mutedWordsDialogControl} = useGlobalDialogsControlContext()
   const blockPromptControl = useDialogControl()
@@ -170,11 +172,6 @@ let PostMenuItems = ({
     const urip = new AtUri(postUri)
     return makeProfileLink(postAuthor, 'post', urip.rkey)
   }, [postUri, postAuthor])
-
-  const translatorUrl = getTranslatorLink(
-    record.text,
-    langPrefs.primaryLanguage,
-  )
 
   const onDeletePost = () => {
     deletePostMutate({uri: postUri}).then(
@@ -233,8 +230,8 @@ let PostMenuItems = ({
     Toast.show(_(msg`Copied to clipboard`), 'clipboard-check')
   }
 
-  const onPressTranslate = async () => {
-    await openLink(translatorUrl, true)
+  const onPressTranslate = () => {
+    translate(record.text, langPrefs.primaryLanguage)
 
     if (
       bsky.dangerousIsType<AppBskyFeedPost.Record>(
@@ -397,6 +394,14 @@ let PostMenuItems = ({
     openLink(url)
   }
 
+  const onSignIn = () => requireSignIn(() => {})
+
+  const gate = useGate()
+  const isDiscoverDebugUser =
+    IS_INTERNAL ||
+    DISCOVER_DEBUG_DIDS[currentAccount?.did || ''] ||
+    gate('debug_show_feedcontext')
+
   return (
     <>
       <Menu.Outer>
@@ -428,7 +433,7 @@ let PostMenuItems = ({
         )}
 
         <Menu.Group>
-          {(!hideInPWI || hasSession) && (
+          {!hideInPWI || hasSession ? (
             <>
               <Menu.Item
                 testID="postDropdownTranslateBtn"
@@ -446,6 +451,14 @@ let PostMenuItems = ({
                 <Menu.ItemIcon icon={ClipboardIcon} position="right" />
               </Menu.Item>
             </>
+          ) : (
+            <Menu.Item
+              testID="postDropdownSignInBtn"
+              label={_(msg`Sign in to view post`)}
+              onPress={onSignIn}>
+              <Menu.ItemText>{_(msg`Sign in to view post`)}</Menu.ItemText>
+              <Menu.ItemIcon icon={Eye} position="right" />
+            </Menu.Item>
           )}
         </Menu.Group>
 
@@ -472,17 +485,15 @@ let PostMenuItems = ({
           </>
         )}
 
-        {hasSession &&
-          IS_INTERNAL &&
-          DISCOVER_DEBUG_DIDS[currentAccount?.did ?? ''] && (
-            <Menu.Item
-              testID="postDropdownReportMisclassificationBtn"
-              label={_(msg`Assign topic for algo`)}
-              onPress={onReportMisclassification}>
-              <Menu.ItemText>{_(msg`Assign topic for algo`)}</Menu.ItemText>
-              <Menu.ItemIcon icon={AtomIcon} position="right" />
-            </Menu.Item>
-          )}
+        {isDiscoverDebugUser && (
+          <Menu.Item
+            testID="postDropdownReportMisclassificationBtn"
+            label={_(msg`Assign topic for algo`)}
+            onPress={onReportMisclassification}>
+            <Menu.ItemText>{_(msg`Assign topic for algo`)}</Menu.ItemText>
+            <Menu.ItemIcon icon={AtomIcon} position="right" />
+          </Menu.Item>
+        )}
 
         {hasSession && (
           <>
@@ -585,8 +596,8 @@ let PostMenuItems = ({
                         isDetachPending
                           ? Loader
                           : quoteEmbed.isDetached
-                          ? Eye
-                          : EyeSlash
+                            ? Eye
+                            : EyeSlash
                       }
                       position="right"
                     />

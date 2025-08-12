@@ -139,7 +139,7 @@ export function usePostgateQuery({postUri}: {postUri: string}) {
     staleTime: STALE.SECONDS.THIRTY,
     queryKey: createPostgateQueryKey(postUri),
     async queryFn() {
-      return (await getPostgateRecord({agent, postUri})) ?? null
+      return await getPostgateRecord({agent, postUri}).then(res => res ?? null)
     },
   })
 }

@@ -235,8 +235,8 @@ export function StepInterests() {
         ) : (
           <Button
             disabled={saving || !data}
-            variant="gradient"
-            color="gradient_sky"
+            variant="solid"
+            color="primary"
             size="large"
             label={_(msg`Continue to next step`)}
             onPress={saveInterests}>

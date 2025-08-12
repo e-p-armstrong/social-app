@@ -32,10 +32,10 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 
+import {useModerationOpts} from '#/state/preferences/moderation-opts'
+import {STALE} from '#/state/queries'
 import {useAgent} from '#/state/session'
 import {useThreadgateHiddenReplyUris} from '#/state/threadgate-hidden-replies'
-import {useModerationOpts} from '../../preferences/moderation-opts'
-import {STALE} from '..'
 import {
   didOrHandleUriMatches,
   embedViewRecordToPostView,

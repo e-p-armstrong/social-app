@@ -98,21 +98,22 @@ export function Trigger({children, label}: TriggerProps) {
           t.atoms.bg_contrast_25,
           a.rounded_sm,
           a.w_full,
-          {maxWidth: 400},
           a.align_center,
           a.gap_sm,
           a.justify_between,
           a.py_sm,
           a.px_md,
+          a.pointer,
           {
+            maxWidth: 400,
             outline: 0,
             borderWidth: 2,
             borderStyle: 'solid',
             borderColor: focused
               ? t.palette.primary_500
               : hovered
-              ? t.palette.contrast_100
-              : t.palette.contrast_25,
+                ? t.palette.contrast_100
+                : t.palette.contrast_25,
           },
         ])}>
         {children}
@@ -190,6 +191,7 @@ export function Content<T>({items, renderItem}: ContentProps<T>) {
             a.border,
             t.atoms.border_contrast_low,
             a.rounded_sm,
+            a.overflow_hidden,
           ]}>
           <RadixSelect.ScrollUpButton style={flatten(up)}>
             <ChevronUpIcon style={[t.atoms.text]} size="xs" />
@@ -244,6 +246,7 @@ export function Item({ref, value, style, children}: ItemProps) {
       onFocus={onFocus}
       onBlur={onBlur}
       style={flatten([
+        t.atoms.text,
         a.relative,
         a.flex,
         {minHeight: 25, paddingLeft: 30, paddingRight: 35},

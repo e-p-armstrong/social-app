@@ -1,20 +1,20 @@
 import {
+  type Agent,
   type AppBskyFeedDefs,
   type AppBskyFeedGetListFeed as GetListFeed,
-  type BskyAgent,
 } from '@atproto/api'
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 
 export class ListFeedAPI implements FeedAPI {
-  agent: BskyAgent
+  agent: Agent
   params: GetListFeed.QueryParams
 
   constructor({
     agent,
     feedParams,
   }: {
-    agent: BskyAgent
+    agent: Agent
     feedParams: GetListFeed.QueryParams
   }) {
     this.agent = agent

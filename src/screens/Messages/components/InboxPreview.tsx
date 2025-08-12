@@ -12,10 +12,8 @@ import {Link} from '#/components/Link'
 
 export function InboxPreview({
   profiles,
-}: // count,
-{
+}: {
   profiles: ChatBskyActorDefs.ProfileViewBasic[]
-  count: number
 }) {
   const {_} = useLingui()
   const t = useTheme()

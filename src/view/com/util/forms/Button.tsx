@@ -37,7 +37,9 @@ declare module 'react-native' {
   }
 }
 
-// TODO: Enforce that button always has a label
+/**
+ * @deprecated use Button from `#/components/Button.tsx` instead
+ */
 export function Button({
   type = 'primary',
   label,

@@ -5,7 +5,6 @@ import {useLingui} from '@lingui/react'
 import * as DynamicAppIcon from '@mozzius/expo-dynamic-app-icon'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
-import {IS_INTERNAL} from '#/lib/app-info'
 import {PressableScale} from '#/lib/custom-animations/PressableScale'
 import {type CommonNavigatorParams} from '#/lib/routes/types'
 import {useGate} from '#/lib/statsig/statsig'
@@ -17,6 +16,7 @@ import {atoms as a, useTheme} from '#/alf'
 import * as Toggle from '#/components/forms/Toggle'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography'
+import {IS_INTERNAL} from '#/env'
 
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'AppIconSettings'>
 export function AppIconSettingsScreen({}: Props) {

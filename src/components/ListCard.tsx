@@ -50,7 +50,9 @@ type Props = {
   showPinButton?: boolean
 }
 
-export function Default(props: Props) {
+export function Default(
+  props: Props & Omit<LinkProps, 'to' | 'label' | 'children'>,
+) {
   const {view, showPinButton} = props
   const moderationOpts = useModerationOpts()
   const moderation = moderationOpts

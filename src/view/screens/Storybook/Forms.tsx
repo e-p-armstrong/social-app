@@ -216,8 +216,8 @@ export function Forms() {
       </View>
 
       <Button
-        variant="gradient"
-        color="gradient_nordic"
+        variant="solid"
+        color="primary"
         size="small"
         label="Reset all toggles"
         onPress={() => {
