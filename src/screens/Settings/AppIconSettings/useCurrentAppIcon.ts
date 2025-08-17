@@ -1,19 +1,17 @@
 import {useCallback, useMemo, useState} from 'react'
-import * as DynamicAppIcon from '@mozzius/expo-dynamic-app-icon'
 import {useFocusEffect} from '@react-navigation/native'
 
+import {getAppIcon} from '#/lib/app-icon/dynamic-app-icon'
 import {useAppIconSets} from '#/screens/Settings/AppIconSettings/useAppIconSets'
 
 export function useCurrentAppIcon() {
   const appIconSets = useAppIconSets()
-  const [currentAppIcon, setCurrentAppIcon] = useState(() =>
-    DynamicAppIcon.getAppIcon(),
-  )
+  const [currentAppIcon, setCurrentAppIcon] = useState(() => getAppIcon())
 
   // refresh current icon when screen is focused
   useFocusEffect(
     useCallback(() => {
-      setCurrentAppIcon(DynamicAppIcon.getAppIcon())
+      setCurrentAppIcon(getAppIcon())
     }, []),
   )
 

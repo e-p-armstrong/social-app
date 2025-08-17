@@ -2,16 +2,16 @@ import {useState} from 'react'
 import {Alert, View} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
-import * as DynamicAppIcon from '@mozzius/expo-dynamic-app-icon'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
+import {getAppIcon, setAppIcon} from '#/lib/app-icon/dynamic-app-icon'
 import {IS_INTERNAL} from '#/lib/app-info'
 import {PressableScale} from '#/lib/custom-animations/PressableScale'
-import {CommonNavigatorParams} from '#/lib/routes/types'
+import {type CommonNavigatorParams} from '#/lib/routes/types'
 import {useGate} from '#/lib/statsig/statsig'
 import {isAndroid} from '#/platform/detection'
 import {AppIconImage} from '#/screens/Settings/AppIconSettings/AppIconImage'
-import {AppIconSet} from '#/screens/Settings/AppIconSettings/types'
+import {type AppIconSet} from '#/screens/Settings/AppIconSettings/types'
 import {useAppIconSets} from '#/screens/Settings/AppIconSettings/useAppIconSets'
 import {atoms as a, useTheme} from '#/alf'
 import * as Toggle from '#/components/forms/Toggle'
@@ -25,7 +25,7 @@ export function AppIconSettingsScreen({}: Props) {
   const sets = useAppIconSets()
   const gate = useGate()
   const [currentAppIcon, setCurrentAppIcon] = useState(() =>
-    getAppIconName(DynamicAppIcon.getAppIcon()),
+    getAppIconName(getAppIcon()),
   )
 
   const onSetAppIcon = (icon: string) => {
@@ -47,14 +47,14 @@ export function AppIconSettingsScreen({}: Props) {
           {
             text: _(msg`OK`),
             onPress: () => {
-              setCurrentAppIcon(setAppIcon(icon))
+              setCurrentAppIcon(setAppIconInternal(icon))
             },
             style: 'default',
           },
         ],
       )
     } else {
-      setCurrentAppIcon(setAppIcon(icon))
+      setCurrentAppIcon(setAppIconInternal(icon))
     }
   }
 
@@ -119,11 +119,11 @@ export function AppIconSettingsScreen({}: Props) {
   )
 }
 
-function setAppIcon(icon: string) {
+function setAppIconInternal(icon: string) {
   if (icon === 'default_light') {
-    return getAppIconName(DynamicAppIcon.setAppIcon(null))
+    return getAppIconName(setAppIcon(null))
   } else {
-    return getAppIconName(DynamicAppIcon.setAppIcon(icon))
+    return getAppIconName(setAppIcon(icon))
   }
 }
 
@@ -228,14 +228,14 @@ function AppIcon({icon, size = 50}: {icon: AppIconSet; size: number}) {
               {
                 text: _(msg`OK`),
                 onPress: () => {
-                  DynamicAppIcon.setAppIcon(icon.id)
+                  setAppIcon(icon.id)
                 },
                 style: 'default',
               },
             ],
           )
         } else {
-          DynamicAppIcon.setAppIcon(icon.id)
+          setAppIcon(icon.id)
         }
       }}>
       <AppIconImage icon={icon} size={size} />
